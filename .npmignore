@@ -1,1 +1,12 @@
 # empty npmignore to ensure all required files (e.g., in the dist folder) are published by npm
+
+# for CI
+.github
+
+# for IntelIJ
+*.iml
+
+# For OpenAPI code generator
+openapi-generator-cli-5.0.0-beta3.jar
+codegen-ts.bat
+codegen-ts.sh

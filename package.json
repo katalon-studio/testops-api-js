@@ -1,6 +1,6 @@
 {
   "name": "@katalon/testops-api",
-  "version": "0.0.1",
+  "version": "0.0.2-beta.1",
   "description": "OpenAPI client for TestOps",
   "author": "Katalon, LLC. (https://www.katalon.com)",
   "repository": {
