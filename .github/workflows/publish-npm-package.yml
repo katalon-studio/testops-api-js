@@ -25,7 +25,7 @@ jobs:
             ~/cache
             !~/cache/exclude
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: Publish npm package
         env:
