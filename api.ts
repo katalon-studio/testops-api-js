@@ -534,6 +534,12 @@ export interface ConfigResource {
     serverUrl?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ConfigResource
+     */
+    ioServerUrl?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ConfigResource
      */
@@ -555,6 +561,18 @@ export interface ConfigResource {
      * @type {string}
      * @memberof ConfigResource
      */
+    reportUploaderDownloadUrl?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfigResource
+     */
+    reportUploaderLatestVersion?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfigResource
+     */
     subDomainPattern?: string;
     /**
      * 
@@ -567,13 +585,13 @@ export interface ConfigResource {
      * @type {boolean}
      * @memberof ConfigResource
      */
-    usingSubDomain?: boolean;
+    advancedFeatureEnabled?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof ConfigResource
      */
-    advancedFeatureEnabled?: boolean;
+    usingSubDomain?: boolean;
 }
 /**
  * 
@@ -871,6 +889,12 @@ export interface ExecutionResource {
      * @memberof ExecutionResource
      */
     type?: ExecutionResourceTypeEnum;
+    /**
+     * 
+     * @type {Array<JobResource>}
+     * @memberof ExecutionResource
+     */
+    jobs?: Array<JobResource>;
 }
 
 /**
@@ -908,6 +932,25 @@ export enum ExecutionResourceTypeEnum {
     Bdd = 'BDD'
 }
 
+/**
+ * 
+ * @export
+ * @interface ExecutionShareReportResource
+ */
+export interface ExecutionShareReportResource {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ExecutionShareReportResource
+     */
+    emails?: Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionShareReportResource
+     */
+    executionId?: number;
+}
 /**
  * 
  * @export
@@ -1143,6 +1186,12 @@ export interface ExecutionTestResultResource {
     attachments?: Array<FileResource>;
     /**
      * 
+     * @type {Array<TestResultAssertionFailedResource>}
+     * @memberof ExecutionTestResultResource
+     */
+    testResultAssertionsFailed?: Array<TestResultAssertionFailedResource>;
+    /**
+     * 
      * @type {string}
      * @memberof ExecutionTestResultResource
      */
@@ -1237,6 +1286,24 @@ export interface ExecutionTestResultResource {
      * @memberof ExecutionTestResultResource
      */
     totalDefects?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionTestResultResource
+     */
+    totalAssertion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionTestResultResource
+     */
+    passedAssertion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionTestResultResource
+     */
+    failedAssertion?: number;
     /**
      * 
      * @type {string}
@@ -1982,6 +2049,12 @@ export interface JobResource {
      * @memberof JobResource
      */
     nodeStatus?: JobResourceNodeStatusEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof JobResource
+     */
+    runConfigurationId?: number;
 }
 
 /**
@@ -2187,6 +2260,7 @@ export interface OrganizationFeatureFlagResource {
      * 
      * @type {boolean}
      * @memberof OrganizationFeatureFlagResource
+     * @deprecated
      */
     circleCi?: boolean;
 }
@@ -2393,7 +2467,7 @@ export interface OrganizationResource {
      * @type {string}
      * @memberof OrganizationResource
      */
-    testOpsBasicReason?: OrganizationResourceTestOpsBasicReasonEnum;
+    mostRecentProjectAccessedAt?: string;
 }
 
 /**
@@ -2415,13 +2489,53 @@ export enum OrganizationResourceTestOpsPackageEnum {
     Advanced = 'ADVANCED',
     Enterprise = 'ENTERPRISE'
 }
+
+/**
+ * 
+ * @export
+ * @interface OrganizationTrialRequestResource
+ */
+export interface OrganizationTrialRequestResource {
+    /**
+     * 
+     * @type {OrganizationResource}
+     * @memberof OrganizationTrialRequestResource
+     */
+    organization?: OrganizationResource;
+    /**
+     * 
+     * @type {UserResource}
+     * @memberof OrganizationTrialRequestResource
+     */
+    userRequest?: UserResource;
+    /**
+     * 
+     * @type {string}
+     * @memberof OrganizationTrialRequestResource
+     */
+    status?: OrganizationTrialRequestResourceStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof OrganizationTrialRequestResource
+     */
+    updatedAt?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OrganizationTrialRequestResource
+     */
+    formRequest?: string;
+}
+
 /**
     * @export
     * @enum {string}
     */
-export enum OrganizationResourceTestOpsBasicReasonEnum {
-    User = 'DISABLED_BY_USER',
-    Admin = 'DISABLED_BY_ADMIN'
+export enum OrganizationTrialRequestResourceStatusEnum {
+    Pending = 'PENDING',
+    Approved = 'APPROVED',
+    Rejected = 'REJECTED'
 }
 
 /**
@@ -2468,12 +2582,6 @@ export interface PageBaseResource {
     sort?: Sort;
     /**
      * 
-     * @type {Pageable}
-     * @memberof PageBaseResource
-     */
-    pageable?: Pageable;
-    /**
-     * 
      * @type {number}
      * @memberof PageBaseResource
      */
@@ -2484,6 +2592,12 @@ export interface PageBaseResource {
      * @memberof PageBaseResource
      */
     first?: boolean;
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof PageBaseResource
+     */
+    pageable?: Pageable;
     /**
      * 
      * @type {boolean}
@@ -2541,12 +2655,6 @@ export interface PageExecutionResource {
     sort?: Sort;
     /**
      * 
-     * @type {Pageable}
-     * @memberof PageExecutionResource
-     */
-    pageable?: Pageable;
-    /**
-     * 
      * @type {number}
      * @memberof PageExecutionResource
      */
@@ -2557,6 +2665,12 @@ export interface PageExecutionResource {
      * @memberof PageExecutionResource
      */
     first?: boolean;
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof PageExecutionResource
+     */
+    pageable?: Pageable;
     /**
      * 
      * @type {boolean}
@@ -2614,12 +2728,6 @@ export interface PageJobResource {
     sort?: Sort;
     /**
      * 
-     * @type {Pageable}
-     * @memberof PageJobResource
-     */
-    pageable?: Pageable;
-    /**
-     * 
      * @type {number}
      * @memberof PageJobResource
      */
@@ -2630,6 +2738,12 @@ export interface PageJobResource {
      * @memberof PageJobResource
      */
     first?: boolean;
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof PageJobResource
+     */
+    pageable?: Pageable;
     /**
      * 
      * @type {boolean}
@@ -2687,12 +2801,6 @@ export interface PageProjectResource {
     sort?: Sort;
     /**
      * 
-     * @type {Pageable}
-     * @memberof PageProjectResource
-     */
-    pageable?: Pageable;
-    /**
-     * 
      * @type {number}
      * @memberof PageProjectResource
      */
@@ -2703,6 +2811,12 @@ export interface PageProjectResource {
      * @memberof PageProjectResource
      */
     first?: boolean;
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof PageProjectResource
+     */
+    pageable?: Pageable;
     /**
      * 
      * @type {boolean}
@@ -2760,12 +2874,6 @@ export interface PageTeamResource {
     sort?: Sort;
     /**
      * 
-     * @type {Pageable}
-     * @memberof PageTeamResource
-     */
-    pageable?: Pageable;
-    /**
-     * 
      * @type {number}
      * @memberof PageTeamResource
      */
@@ -2776,6 +2884,12 @@ export interface PageTeamResource {
      * @memberof PageTeamResource
      */
     first?: boolean;
+    /**
+     * 
+     * @type {Pageable}
+     * @memberof PageTeamResource
+     */
+    pageable?: Pageable;
     /**
      * 
      * @type {boolean}
@@ -2824,13 +2938,13 @@ export interface Pageable {
      * @type {boolean}
      * @memberof Pageable
      */
-    unpaged?: boolean;
+    paged?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof Pageable
      */
-    paged?: boolean;
+    unpaged?: boolean;
 }
 /**
  * 
@@ -2894,7 +3008,8 @@ export interface ProjectConfigurationResource {
     * @enum {string}
     */
 export enum ProjectConfigurationResourceNameEnum {
-    Timezone = 'TIMEZONE'
+    Timezone = 'TIMEZONE',
+    AssertionPattern = 'ASSERTION_PATTERN'
 }
 
 /**
@@ -2933,7 +3048,23 @@ export interface ProjectResource {
      * @memberof ProjectResource
      */
     timezone?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectResource
+     */
+    status?: ProjectResourceStatusEnum;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ProjectResourceStatusEnum {
+    Archive = 'ARCHIVE',
+    Active = 'ACTIVE'
+}
+
 /**
  * 
  * @export
@@ -3093,6 +3224,12 @@ export interface RunConfigurationResource {
      * @memberof RunConfigurationResource
      */
     testProjectId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RunConfigurationResource
+     */
+    releaseId?: number;
     /**
      * 
      * @type {number}
@@ -3782,6 +3919,12 @@ export interface TestCaseResource {
     maintainer?: UserResource;
     /**
      * 
+     * @type {TestResultAssertionResource}
+     * @memberof TestCaseResource
+     */
+    testResultAssertion?: TestResultAssertionResource;
+    /**
+     * 
      * @type {string}
      * @memberof TestCaseResource
      */
@@ -3973,6 +4116,86 @@ export enum TestProjectResourceTypeEnum {
     Git = 'GIT'
 }
 
+/**
+ * 
+ * @export
+ * @interface TestResultAssertionFailedResource
+ */
+export interface TestResultAssertionFailedResource {
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionFailedResource
+     */
+    id?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionFailedResource
+     */
+    executionTestResultId?: number;
+    /**
+     * 
+     * @type {ExecutionTestResultResource}
+     * @memberof TestResultAssertionFailedResource
+     */
+    executionTestResultResource?: ExecutionTestResultResource;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResultAssertionFailedResource
+     */
+    stacktrace?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResultAssertionFailedResource
+     */
+    message?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestResultAssertionFailedResource
+     */
+    logTime?: string;
+}
+/**
+ * 
+ * @export
+ * @interface TestResultAssertionResource
+ */
+export interface TestResultAssertionResource {
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionResource
+     */
+    executionTestResultId?: number;
+    /**
+     * 
+     * @type {ExecutionTestResultResource}
+     * @memberof TestResultAssertionResource
+     */
+    executionTestResult?: ExecutionTestResultResource;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionResource
+     */
+    totalAssertion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionResource
+     */
+    passedAssertion?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestResultAssertionResource
+     */
+    failedAssertion?: number;
+}
 /**
  * 
  * @export
@@ -4191,16 +4414,16 @@ export interface TimeZoneResourceOffsetRules {
     fixedOffset?: boolean;
     /**
      * 
-     * @type {Array<TimeZoneResourceOffsetRulesTransitionRules>}
-     * @memberof TimeZoneResourceOffsetRules
-     */
-    transitionRules?: Array<TimeZoneResourceOffsetRulesTransitionRules>;
-    /**
-     * 
      * @type {Array<TimeZoneResourceOffsetRulesTransitions>}
      * @memberof TimeZoneResourceOffsetRules
      */
     transitions?: Array<TimeZoneResourceOffsetRulesTransitions>;
+    /**
+     * 
+     * @type {Array<TimeZoneResourceOffsetRulesTransitionRules>}
+     * @memberof TimeZoneResourceOffsetRules
+     */
+    transitionRules?: Array<TimeZoneResourceOffsetRulesTransitionRules>;
 }
 /**
  * 
@@ -4216,18 +4439,6 @@ export interface TimeZoneResourceOffsetRulesDuration {
     seconds?: number;
     /**
      * 
-     * @type {boolean}
-     * @memberof TimeZoneResourceOffsetRulesDuration
-     */
-    zero?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof TimeZoneResourceOffsetRulesDuration
-     */
-    negative?: boolean;
-    /**
-     * 
      * @type {number}
      * @memberof TimeZoneResourceOffsetRulesDuration
      */
@@ -4238,6 +4449,18 @@ export interface TimeZoneResourceOffsetRulesDuration {
      * @memberof TimeZoneResourceOffsetRulesDuration
      */
     units?: Array<TimeZoneResourceOffsetRulesDurationUnits>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TimeZoneResourceOffsetRulesDuration
+     */
+    zero?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TimeZoneResourceOffsetRulesDuration
+     */
+    negative?: boolean;
 }
 /**
  * 
@@ -4250,13 +4473,13 @@ export interface TimeZoneResourceOffsetRulesDurationUnits {
      * @type {boolean}
      * @memberof TimeZoneResourceOffsetRulesDurationUnits
      */
-    timeBased?: boolean;
+    dateBased?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof TimeZoneResourceOffsetRulesDurationUnits
      */
-    dateBased?: boolean;
+    timeBased?: boolean;
     /**
      * 
      * @type {boolean}
@@ -4290,12 +4513,6 @@ export interface TimeZoneResourceOffsetRulesTransitionRules {
     dayOfWeek?: TimeZoneResourceOffsetRulesTransitionRulesDayOfWeekEnum;
     /**
      * 
-     * @type {LocalTime}
-     * @memberof TimeZoneResourceOffsetRulesTransitionRules
-     */
-    localTime?: LocalTime;
-    /**
-     * 
      * @type {number}
      * @memberof TimeZoneResourceOffsetRulesTransitionRules
      */
@@ -4306,6 +4523,12 @@ export interface TimeZoneResourceOffsetRulesTransitionRules {
      * @memberof TimeZoneResourceOffsetRulesTransitionRules
      */
     midnightEndOfDay?: boolean;
+    /**
+     * 
+     * @type {LocalTime}
+     * @memberof TimeZoneResourceOffsetRulesTransitionRules
+     */
+    localTime?: LocalTime;
 }
 
 /**
@@ -4363,12 +4586,6 @@ export interface TimeZoneResourceOffsetRulesTransitions {
     instant?: string;
     /**
      * 
-     * @type {string}
-     * @memberof TimeZoneResourceOffsetRulesTransitions
-     */
-    dateTimeAfter?: string;
-    /**
-     * 
      * @type {TimeZoneResourceOffsetRulesDuration}
      * @memberof TimeZoneResourceOffsetRulesTransitions
      */
@@ -4385,6 +4602,12 @@ export interface TimeZoneResourceOffsetRulesTransitions {
      * @memberof TimeZoneResourceOffsetRulesTransitions
      */
     overlap?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof TimeZoneResourceOffsetRulesTransitions
+     */
+    dateTimeAfter?: string;
     /**
      * 
      * @type {string}
@@ -4578,7 +4801,11 @@ export enum UploadFileResourceTypeEnum {
     Har = 'HAR',
     Uuid = 'UUID',
     Zip = 'ZIP',
-    Bdd = 'BDD'
+    Bdd = 'BDD',
+    TestopsReportMetadata = 'TESTOPS_REPORT_METADATA',
+    TestopsReportExecution = 'TESTOPS_REPORT_EXECUTION',
+    TestopsReportSuites = 'TESTOPS_REPORT_SUITES',
+    TestopsReportResults = 'TESTOPS_REPORT_RESULTS'
 }
 
 /**
@@ -6711,6 +6938,118 @@ export const ExecutionApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary Rerun an Execution.
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rerunExecution: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling rerunExecution.');
+            }
+            const localVarPath = `/api/v1/executions/{id}/rerun`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicScheme required
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+
+
+    
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Allow users to send email with attached execution reports [PDF].
+         * @param {number} id 
+         * @param {ExecutionShareReportResource} executionShareReportResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareExecutionReport: async (id: number, executionShareReportResource: ExecutionShareReportResource, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling shareExecutionReport.');
+            }
+            // verify required parameter 'executionShareReportResource' is not null or undefined
+            if (executionShareReportResource === null || executionShareReportResource === undefined) {
+                throw new RequiredError('executionShareReportResource','Required parameter executionShareReportResource was null or undefined when calling shareExecutionReport.');
+            }
+            const localVarPath = `/api/v1/executions/{id}/share-report`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicScheme required
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const nonString = typeof executionShareReportResource !== 'string';
+            const needsSerialization = nonString && configuration && configuration.isJsonMime
+                ? configuration.isJsonMime(localVarRequestOptions.headers['Content-Type'])
+                : nonString;
+            localVarRequestOptions.data =  needsSerialization
+                ? JSON.stringify(executionShareReportResource !== undefined ? executionShareReportResource : {})
+                : (executionShareReportResource || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Terminates a running Execution. Returns the terminated Execution detail.
          * @param {number} projectId 
          * @param {number} order 
@@ -6964,6 +7303,35 @@ export const ExecutionApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Rerun an Execution.
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rerunExecution(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await ExecutionApiAxiosParamCreator(configuration).rerunExecution(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Allow users to send email with attached execution reports [PDF].
+         * @param {number} id 
+         * @param {ExecutionShareReportResource} executionShareReportResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareExecutionReport(id: number, executionShareReportResource: ExecutionShareReportResource, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await ExecutionApiAxiosParamCreator(configuration).shareExecutionReport(id, executionShareReportResource, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary Terminates a running Execution. Returns the terminated Execution detail.
          * @param {number} projectId 
          * @param {number} order 
@@ -7097,6 +7465,27 @@ export const ExecutionApiFactory = function (configuration?: Configuration, base
          */
         reImportExecution(id: number, options?: any): AxiosPromise<ExecutionResource> {
             return ExecutionApiFp(configuration).reImportExecution(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Rerun an Execution.
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rerunExecution(id: number, options?: any): AxiosPromise<void> {
+            return ExecutionApiFp(configuration).rerunExecution(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Allow users to send email with attached execution reports [PDF].
+         * @param {number} id 
+         * @param {ExecutionShareReportResource} executionShareReportResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareExecutionReport(id: number, executionShareReportResource: ExecutionShareReportResource, options?: any): AxiosPromise<void> {
+            return ExecutionApiFp(configuration).shareExecutionReport(id, executionShareReportResource, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7243,6 +7632,31 @@ export class ExecutionApi extends BaseAPI {
      */
     public reImportExecution(id: number, options?: any) {
         return ExecutionApiFp(this.configuration).reImportExecution(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Rerun an Execution.
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExecutionApi
+     */
+    public rerunExecution(id: number, options?: any) {
+        return ExecutionApiFp(this.configuration).rerunExecution(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Allow users to send email with attached execution reports [PDF].
+     * @param {number} id 
+     * @param {ExecutionShareReportResource} executionShareReportResource 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExecutionApi
+     */
+    public shareExecutionReport(id: number, executionShareReportResource: ExecutionShareReportResource, options?: any) {
+        return ExecutionApiFp(this.configuration).shareExecutionReport(id, executionShareReportResource, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9423,6 +9837,229 @@ export class KatalonRecorderApi extends BaseAPI {
 
 
 /**
+ * OrganizationTrialRequestResourceControllerApi - axios parameter creator
+ * @export
+ */
+export const OrganizationTrialRequestResourceControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get organization trial request data
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTrialRequest: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getTrialRequest.');
+            }
+            const localVarPath = `/api/v1/organizations/{id}/trial-request`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicScheme required
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+
+
+    
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Submit organization trial request
+         * @param {number} id 
+         * @param {OrganizationTrialRequestResource} organizationTrialRequestResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitTrialRequest: async (id: number, organizationTrialRequestResource: OrganizationTrialRequestResource, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling submitTrialRequest.');
+            }
+            // verify required parameter 'organizationTrialRequestResource' is not null or undefined
+            if (organizationTrialRequestResource === null || organizationTrialRequestResource === undefined) {
+                throw new RequiredError('organizationTrialRequestResource','Required parameter organizationTrialRequestResource was null or undefined when calling submitTrialRequest.');
+            }
+            const localVarPath = `/api/v1/organizations/{id}/trial-request`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicScheme required
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const nonString = typeof organizationTrialRequestResource !== 'string';
+            const needsSerialization = nonString && configuration && configuration.isJsonMime
+                ? configuration.isJsonMime(localVarRequestOptions.headers['Content-Type'])
+                : nonString;
+            localVarRequestOptions.data =  needsSerialization
+                ? JSON.stringify(organizationTrialRequestResource !== undefined ? organizationTrialRequestResource : {})
+                : (organizationTrialRequestResource || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OrganizationTrialRequestResourceControllerApi - functional programming interface
+ * @export
+ */
+export const OrganizationTrialRequestResourceControllerApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get organization trial request data
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTrialRequest(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizationTrialRequestResource>> {
+            const localVarAxiosArgs = await OrganizationTrialRequestResourceControllerApiAxiosParamCreator(configuration).getTrialRequest(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Submit organization trial request
+         * @param {number} id 
+         * @param {OrganizationTrialRequestResource} organizationTrialRequestResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async submitTrialRequest(id: number, organizationTrialRequestResource: OrganizationTrialRequestResource, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OrganizationTrialRequestResource>> {
+            const localVarAxiosArgs = await OrganizationTrialRequestResourceControllerApiAxiosParamCreator(configuration).submitTrialRequest(id, organizationTrialRequestResource, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * OrganizationTrialRequestResourceControllerApi - factory interface
+ * @export
+ */
+export const OrganizationTrialRequestResourceControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         * 
+         * @summary Get organization trial request data
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTrialRequest(id: number, options?: any): AxiosPromise<OrganizationTrialRequestResource> {
+            return OrganizationTrialRequestResourceControllerApiFp(configuration).getTrialRequest(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Submit organization trial request
+         * @param {number} id 
+         * @param {OrganizationTrialRequestResource} organizationTrialRequestResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitTrialRequest(id: number, organizationTrialRequestResource: OrganizationTrialRequestResource, options?: any): AxiosPromise<OrganizationTrialRequestResource> {
+            return OrganizationTrialRequestResourceControllerApiFp(configuration).submitTrialRequest(id, organizationTrialRequestResource, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OrganizationTrialRequestResourceControllerApi - object-oriented interface
+ * @export
+ * @class OrganizationTrialRequestResourceControllerApi
+ * @extends {BaseAPI}
+ */
+export class OrganizationTrialRequestResourceControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get organization trial request data
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationTrialRequestResourceControllerApi
+     */
+    public getTrialRequest(id: number, options?: any) {
+        return OrganizationTrialRequestResourceControllerApiFp(this.configuration).getTrialRequest(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Submit organization trial request
+     * @param {number} id 
+     * @param {OrganizationTrialRequestResource} organizationTrialRequestResource 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationTrialRequestResourceControllerApi
+     */
+    public submitTrialRequest(id: number, organizationTrialRequestResource: OrganizationTrialRequestResource, options?: any) {
+        return OrganizationTrialRequestResourceControllerApiFp(this.configuration).submitTrialRequest(id, organizationTrialRequestResource, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * ProjectApi - axios parameter creator
  * @export
  */
@@ -9850,6 +10487,63 @@ export const ProjectApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Updates a Project status. Returns the updated Project detail.
+         * @param {ProjectResource} projectResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateStatus: async (projectResource: ProjectResource, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectResource' is not null or undefined
+            if (projectResource === null || projectResource === undefined) {
+                throw new RequiredError('projectResource','Required parameter projectResource was null or undefined when calling updateStatus.');
+            }
+            const localVarPath = `/api/v1/projects/update-status`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication basicScheme required
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                queryParameters.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                queryParameters.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const nonString = typeof projectResource !== 'string';
+            const needsSerialization = nonString && configuration && configuration.isJsonMime
+                ? configuration.isJsonMime(localVarRequestOptions.headers['Content-Type'])
+                : nonString;
+            localVarRequestOptions.data =  needsSerialization
+                ? JSON.stringify(projectResource !== undefined ? projectResource : {})
+                : (projectResource || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -9970,6 +10664,20 @@ export const ProjectApiFp = function(configuration?: Configuration) {
                 return axios.request(axiosRequestArgs);
             };
         },
+        /**
+         * 
+         * @summary Updates a Project status. Returns the updated Project detail.
+         * @param {ProjectResource} projectResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateStatus(projectResource: ProjectResource, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectResource>> {
+            const localVarAxiosArgs = await ProjectApiAxiosParamCreator(configuration).updateStatus(projectResource, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
     }
 };
 
@@ -10057,6 +10765,16 @@ export const ProjectApiFactory = function (configuration?: Configuration, basePa
          */
         update2(projectResource: ProjectResource, options?: any): AxiosPromise<ProjectResource> {
             return ProjectApiFp(configuration).update2(projectResource, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Updates a Project status. Returns the updated Project detail.
+         * @param {ProjectResource} projectResource 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateStatus(projectResource: ProjectResource, options?: any): AxiosPromise<ProjectResource> {
+            return ProjectApiFp(configuration).updateStatus(projectResource, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -10162,6 +10880,18 @@ export class ProjectApi extends BaseAPI {
     public update2(projectResource: ProjectResource, options?: any) {
         return ProjectApiFp(this.configuration).update2(projectResource, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * 
+     * @summary Updates a Project status. Returns the updated Project detail.
+     * @param {ProjectResource} projectResource 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectApi
+     */
+    public updateStatus(projectResource: ProjectResource, options?: any) {
+        return ProjectApiFp(this.configuration).updateStatus(projectResource, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 
@@ -10174,11 +10904,11 @@ export const ProjectConfigurationResourceControllerApiAxiosParamCreator = functi
         /**
          * 
          * @param {number} id 
-         * @param {'TIMEZONE'} name 
+         * @param {'TIMEZONE' | 'ASSERTION_PATTERN'} name 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get14: async (id: number, name: 'TIMEZONE', options: any = {}): Promise<RequestArgs> => {
+        get14: async (id: number, name: 'TIMEZONE' | 'ASSERTION_PATTERN', options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling get14.');
@@ -10344,11 +11074,11 @@ export const ProjectConfigurationResourceControllerApiFp = function(configuratio
         /**
          * 
          * @param {number} id 
-         * @param {'TIMEZONE'} name 
+         * @param {'TIMEZONE' | 'ASSERTION_PATTERN'} name 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get14(id: number, name: 'TIMEZONE', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectConfigurationResource>> {
+        async get14(id: number, name: 'TIMEZONE' | 'ASSERTION_PATTERN', options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectConfigurationResource>> {
             const localVarAxiosArgs = await ProjectConfigurationResourceControllerApiAxiosParamCreator(configuration).get14(id, name, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -10393,11 +11123,11 @@ export const ProjectConfigurationResourceControllerApiFactory = function (config
         /**
          * 
          * @param {number} id 
-         * @param {'TIMEZONE'} name 
+         * @param {'TIMEZONE' | 'ASSERTION_PATTERN'} name 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get14(id: number, name: 'TIMEZONE', options?: any): AxiosPromise<ProjectConfigurationResource> {
+        get14(id: number, name: 'TIMEZONE' | 'ASSERTION_PATTERN', options?: any): AxiosPromise<ProjectConfigurationResource> {
             return ProjectConfigurationResourceControllerApiFp(configuration).get14(id, name, options).then((request) => request(axios, basePath));
         },
         /**
@@ -10431,12 +11161,12 @@ export class ProjectConfigurationResourceControllerApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
-     * @param {'TIMEZONE'} name 
+     * @param {'TIMEZONE' | 'ASSERTION_PATTERN'} name 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectConfigurationResourceControllerApi
      */
-    public get14(id: number, name: 'TIMEZONE', options?: any) {
+    public get14(id: number, name: 'TIMEZONE' | 'ASSERTION_PATTERN', options?: any) {
         return ProjectConfigurationResourceControllerApiFp(this.configuration).get14(id, name, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -15100,7 +15830,7 @@ export const TestReportApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async processTestOpsReports(projectId: number, batch: string, uploadBatchFileResource: Array<UploadBatchFileResource>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async processTestOpsReports(projectId: number, batch: string, uploadBatchFileResource: Array<UploadBatchFileResource>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UploadBatchResource>> {
             const localVarAxiosArgs = await TestReportApiAxiosParamCreator(configuration).processTestOpsReports(projectId, batch, uploadBatchFileResource, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -15206,7 +15936,7 @@ export const TestReportApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        processTestOpsReports(projectId: number, batch: string, uploadBatchFileResource: Array<UploadBatchFileResource>, options?: any): AxiosPromise<void> {
+        processTestOpsReports(projectId: number, batch: string, uploadBatchFileResource: Array<UploadBatchFileResource>, options?: any): AxiosPromise<UploadBatchResource> {
             return TestReportApiFp(configuration).processTestOpsReports(projectId, batch, uploadBatchFileResource, options).then((request) => request(axios, basePath));
         },
         /**

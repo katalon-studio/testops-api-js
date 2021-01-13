@@ -1,4 +1,4 @@
-name: Publish npm package
+name: Publish release package
 
 on:
   push:
@@ -27,13 +27,13 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
 
-      - name: Publish npm package
-        env:
-          NPM_USER: ${{ secrets.NPM_USER }}
-          NPM_PASS: ${{ secrets.NPM_PASS }}
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-        run: |
-          npm install -g npm-cli-login
-          npm-cli-login
-          npm install
-          npm publish --access public --tag beta
+#      - name: Publish npm package
+#        env:
+#          NPM_USER: ${{ secrets.NPM_USER }}
+#          NPM_PASS: ${{ secrets.NPM_PASS }}
+#          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+#        run: |
+#          npm install -g npm-cli-login
+#          npm-cli-login
+#          npm install
+#          npm publish --access public --tag beta
